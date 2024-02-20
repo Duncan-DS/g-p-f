@@ -1,2 +1,2 @@
 # g-p-f
-Github-Profile Finder
+Github Profile Finder
