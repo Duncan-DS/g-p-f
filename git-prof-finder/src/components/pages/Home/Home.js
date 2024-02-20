@@ -5,7 +5,7 @@ const Home = () => {
     return (
         <div className='container'>
             <div className='search-from'>
-                <h4>Github Search User</h4>
+                <h2>Github Search User</h2>
                 <form>
                     <input type='text' />
                     <button>Search</button>
@@ -20,7 +20,7 @@ const Home = () => {
                         />
                     </div>
                     <div className='user-info'>
-                        <h4>Name of User</h4>
+                        <h3>Name of User</h3>
                         <small>ID34fj</small>
                         <a href=''>View Profile</a>
                     </div>
