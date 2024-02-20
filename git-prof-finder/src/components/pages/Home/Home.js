@@ -15,8 +15,8 @@ const Home = () => {
                 <div className='user'>
                     <div className='image'>
                         <img
-                            src=''
-                            alt=''
+                            src=""
+                            alt=""
                         />
                     </div>
                     <div className='user-info'>
