@@ -1,9 +1,10 @@
 import React from 'react';
 import './User.css';
-import site from '../../../assets/site.png';
-import github from '../../../assets/site.png';
-import location from '../../../assets/site.png';
-import user from '../../../assets/site.png';
+import { Link } from 'react-router-dom';
+// import site from '../../../assets/site.png';
+// import github from '../../../assets/site.png';
+// import location from '../../../assets/site.png';
+// import user from '../../../assets/site.png';
 
 const User = () => {
     return (
@@ -18,16 +19,16 @@ const User = () => {
                     <p>Lorem</p>
                     <div className='more-data'>
                         <p>
-                         <img src={user} alt='' />Followers. Following
+                         <img src='' alt='' />Followers. Following
                         </p>
                         <p>
-                         <img src={location} alt='' />South Afirca
+                         <img src='' alt='' />South Afirca
                         </p>
                         <p>
-                         <img src={site} alt='' />Portfolio.com
+                         <img src='' alt='' />Portfolio.com
                         </p>
                         <p>
-                         <img src={github} alt='' /><a href='#'>View GitHub Profile</a>
+                         <img src='' alt='' /><a href='#'>View GitHub Profile</a>
                         </p>
                     </div>
                 </div>
