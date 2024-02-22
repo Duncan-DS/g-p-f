@@ -15,16 +15,23 @@ const Home = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("/search/users?q=" + query);
-            console.log(response)
+            const { data } = await axios.get("/search/users?q=" + query);
+            return data?.items;
         } catch (error) {
             console.error(error)
+            return null;
         }
     }
 
     const handleSearchUsers = async (e) => {
         e.preventDefault();
-        await fetchUsers();
+        if(query) {
+            const items = await fetchUsers();
+            setUsers(items);
+        }
+        else {
+            console.log("You're query is empty...")
+        }
     };
 
     return (
@@ -37,20 +44,13 @@ const Home = () => {
                 </form>
             </div>
             <div className='search-results'>
-
-                <div className='user'>
-                    <div className='image'>
-                        <img
-                            src=""
-                            alt=""
-                        />
-                    </div>
-                    <div className='user-info'>
-                        <h3>Name of User</h3>
-                        <small>ID34fj</small>
-                        <a href=''>View Profile</a>
-                    </div>
-                </div>
+                { users ? (
+                    users.map((user) => {
+                    return <User user={user} key={user.id} />
+                    })
+                ) : (
+                    <h2>There is nothing to display...</h2>
+                )}
             </div>
         </div>
     );
