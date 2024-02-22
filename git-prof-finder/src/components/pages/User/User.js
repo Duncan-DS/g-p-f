@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './User.css';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Repo from '../../ui/Repo';
 // import site from '../../../assets/site.png';
 // import github from '../../../assets/site.png';
 // import location from '../../../assets/site.png';
@@ -64,14 +65,12 @@ const User = () => {
                         </p>
                     </div>
                 </div>
-            </div>
-            <div className='user-repos'>
-                <div className='repo'>
-                    <h3>
-                        <a href='#'>Name of Repo</a>
-                    </h3>
-                    <p>Lorem</p>
-                    <small>Written in JS</small>
+                <div className='user-repos'>
+                    {
+                        repos ? repos.map(repo => {
+                            return <Repo repo= {repo} key={repo.id} />
+                        }) : <h2>No repos for this user...</h2>
+                    }
                 </div>
             </div>
         </div>
