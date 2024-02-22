@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './Home.css';
 import axios from 'axios';
+import User from '../../ui/User';
 
 const Home = () => {
 
@@ -35,7 +36,12 @@ const Home = () => {
 
     const fetchUsers = async () => {
         try {
-            const { data } = await axios.get("/search/users?q=" + query);
+            const { data } = await axios.get("/search/users?q=" + query, {
+                params: {
+                    page,
+                    per_page: limit
+                }
+            });
             return data?.items;
         } catch (error) {
             console.error(error)
@@ -53,6 +59,16 @@ const Home = () => {
             console.log("You're query is empty...")
         }
     };
+
+    useEffect(() => {
+        const displayUserOnChange = async () => {
+            if(query) {
+                const items = await fetchUsers();
+                setUsers(items);
+            }
+        }
+        displayUserOnChange()
+    }, [page, limit])
 
     return (
         <div className='container'>
@@ -75,8 +91,8 @@ const Home = () => {
                         </select>
                     </label>
                     <div className='pagination'>
-                        <button onClick={handlePrevPage}>1</button>
-                        <button onClick={handleNextPage}>2</button>
+                        <button onClick={handlePrevPage}>{page}</button>
+                        <button onClick={handleNextPage}>{page + 1}</button>
                     </div>
                 </div>
                 { users ? (
