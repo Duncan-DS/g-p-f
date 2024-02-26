@@ -1,76 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import './User.css';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
 import Repo from '../../ui/Repo';
-// import site from '../../../assets/site.png';
-// import github from '../../../assets/site.png';
-// import location from '../../../assets/site.png';
-// import user from '../../../assets/site.png';
 
 const User = () => {
-
-    const { login }= useParams();
-
-    const [userinfo, setUserInfo] = useState([]);
-
+    const { login } = useParams();
+    const [userInfo, setUserInfo] = useState({});
     const [repos, setRepos] = useState([]);
 
     useEffect(() => {
-        const fetchUsersInformation = async () => {
-         try {
-            const response = await Promise.all([
-                axios.get(`/user/${login}`),
-                axios.get(`/user/${login}/repos`)
-            ]);
-            setUserInfo(response[0].data)
-            setRepos(response[1].data)
-         }  catch (error) {
-            console.log(error);
-         }
+        const fetchUserInfo = async () => {
+            try {
+                const userResponse = await fetch(`https://api.github.com/users/${login}`);
+                const reposResponse = await fetch(`https://api.github.com/users/${login}/repos`);
+
+                if (!userResponse.ok || !reposResponse.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+
+                const userData = await userResponse.json();
+                const reposData = await reposResponse.json();
+
+                setUserInfo(userData);
+                setRepos(reposData);
+            } catch (error) {
+                console.error(error);
+            }
         };
-        fetchUsersInformation();
-    }, []);
+        fetchUserInfo();
+    }, [login]);
 
     return (
         <div className='container'>
-            <Link to='/' className='back'>
-                Back
-            </Link>
+            <Link to='/' className='back'>Back</Link>
             <div className='user-information'>
                 <div className='image'>
-                    <img src={userinfo?.avatar_url} />
+                    <img src={userInfo.avatar_url} alt={userInfo.login} />
                 </div>
                 <div className='user-content'>
-                    <h3>{userinfo?.name}</h3>
-                    <p>
-                        {userinfo?.bio}
-                    </p>
+                    <h3>{userInfo.name}</h3>
+                    <p>{userInfo.bio}</p>
                     <div className='more-data'>
-                        <p>
-                         <img src='' alt='' />
-                         {userinfo?.followers}Followers. Following {userinfo?.following}
-                        </p>
-                        {userinfo?.lcoation && <p>
-                         <img src='' alt='' />
-                         {userinfo?.lcoation}
-                        </p>}
-                        {userinfo?.blog && <p>
-                         <img src='' alt='' />
-                         {userinfo?.blog}
-                        </p>}
-                        <p>
-                         <img src='' alt='' />
-                         <a href={userinfo?.html_url}>View GitHub Profile</a>
-                        </p>
+                        <p>{userInfo.followers} Followers. Following {userInfo.following}</p>
+                        {userInfo.location && <p>{userInfo.location}</p>}
+                        {userInfo.blog && <p>{userInfo.blog}</p>}
+                        <p><a href={userInfo.html_url}>View GitHub Profile</a></p>
                     </div>
                 </div>
                 <div className='user-repos'>
-                    {
-                        repos ? repos.map(repo => {
-                            return <Repo repo= {repo} key={repo.id} />
-                        }) : <h2>No repos for this user...</h2>
-                    }
+                    {repos.length > 0 ? (
+                        repos.map(repo => {
+                            return <Repo repo={repo} key={repo.id} />
+                        })
+                    ) : (
+                        <h2>No repos for this user...</h2>
+                    )}
                 </div>
             </div>
         </div>
