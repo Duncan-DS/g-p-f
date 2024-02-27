@@ -61,24 +61,3 @@
     display: block;
     padding: 0 10px;
 }
-
-.more-options {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.more-options select,
-.pagination button {
-    outline: none;
-    padding: 5px;
-    border-radius: 10px;
-    border: none;
-}
-
-.pagination button {
-    background-color: #333;
-    color: #fff;
-    margin: 0 5px;
-}

@@ -8,11 +8,6 @@ const Home = () => {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
 
-    const handleQueryInput = (e) => {
-        const value = e.target.value;
-        setQuery(value);
-    };
-
     const fetchUsers = async () => {
         try {
             const response = await fetch(`https://api.github.com/search/users?q=${query}&page=${page}&per_page=${limit}`);
@@ -31,6 +26,11 @@ const Home = () => {
             console.error(error);
             return null;
         }
+    };
+
+     const handleQueryInput = (e) => {
+        const value = e.target.value;
+        setQuery(value);
     };
 
     const handleSearchUsers = async (e) => {
