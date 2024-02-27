@@ -11,16 +11,12 @@ const User = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const userResponse = await fetch(`https://api.github.com/users/${login}`);
-                const reposResponse = await fetch(`https://api.github.com/users/${login}/repos`);
-
-                if (!userResponse.ok || !reposResponse.ok) {
-                    throw new Error('Failed to fetch user data');
-                }
-
+                const [userResponse, reposResponse] = await Promise.all([
+                    fetch(`https://api.github.com/users/${login}`),
+                    fetch(`https://api.github.com/users/${login}/repos`)
+                ]);
                 const userData = await userResponse.json();
                 const reposData = await reposResponse.json();
-
                 setUserInfo(userData);
                 setRepos(reposData);
             } catch (error) {
@@ -47,15 +43,15 @@ const User = () => {
                         <p><a href={userInfo.html_url}>View GitHub Profile</a></p>
                     </div>
                 </div>
-                <div className='user-repos'>
-                    {repos.length > 0 ? (
-                        repos.map(repo => {
-                            return <Repo repo={repo} key={repo.id} />
-                        })
-                    ) : (
-                        <h2>No repos for this user...</h2>
-                    )}
-                </div>
+            </div>
+            <div className='user-repos'>
+                {repos.length > 0 ? (
+                    repos.map(repo => {
+                        return <Repo repo={repo} key={repo.id} />
+                    })
+                ) : (
+                    <h2>No repos for this user...</h2>
+                )}
             </div>
         </div>
     );
