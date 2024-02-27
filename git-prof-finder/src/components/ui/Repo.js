@@ -1,4 +1,5 @@
 import React from 'react';
+import './Ui.css';
 
 const Repo = ({ repo }) => {
     const { name, html_url, description, language } = repo;
